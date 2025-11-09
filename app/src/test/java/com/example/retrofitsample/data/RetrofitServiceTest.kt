@@ -36,7 +36,6 @@ class RetrofitServiceTest {
 
     @Test
     fun `listImages devuelve RemoteResult cuando la llamada es exitosa (200 OK)`() = runTest {
-        // 1) Respuesta simulada
         val mockJsonResponse = """
             [
               {
@@ -54,10 +53,8 @@ class RetrofitServiceTest {
                 .setBody(mockJsonResponse)
         )
 
-        // 2) Ejecución
         val result: RemoteResult = service.listImages(apiKey = "test_api_key")
 
-        // 3) Asserts (JUnit)
         assertNotNull(result)
         assertEquals(1, result.size)
         assertEquals("MTY1ODc5MA", result[0].id)
@@ -65,7 +62,6 @@ class RetrofitServiceTest {
         assertEquals(600, result[0].width)
         assertEquals(400, result[0].height)
 
-        // 4) Verificar request
         val request = mockWebServer.takeRequest()
         val path = request.path ?: ""
         assertTrue(path.contains("images/search"))
